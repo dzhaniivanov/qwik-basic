@@ -1,51 +1,62 @@
-import { component$, useSignal, useStore } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import { component$, Resource } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { routeLoader$, Link } from "@builder.io/qwik-city";
 
+interface BlogData {
+  id: string;
+  title: string;
+  content: string;
+}
 
+export const useBlogData = routeLoader$(async () => {
+  const res = await fetch("http://localhost:3000/blogs");
+  const data = (await res.json()) as BlogData[];
+
+  return data;
+});
 
 export default component$(() => {
-  const name = useSignal('mario')
-
-  const person = useStore({ name: 'peach', age: 30 })
-
-  const blogs = useStore([
-    { id: 1, title: 'first blog' },
-    { id: 2, title: 'second blog' },
-    { id: 3, title: 'third blog' }
-  ])
+  const blogsData = useBlogData();
   return (
     <div>
       <h2>hohoho mohohoo</h2>
-      <p>Hello, {name.value}</p>
-      <p>Hello,{person.name}</p>
-      <p>Age,{person.age}</p>
-
-      <button onClick$={() => name.value = "luis"}>click me</button>
-      <button onClick$={() => person.name = "john"}>click me again</button>
-
-      {blogs.map(blog => (
+      {/* {blogs.value.map((blog) => (
         <div key={blog.id}>
-          {blog.title}
+          <p>{blog.title}</p>
         </div>
-      ))}
-      <button onClick$={() => blogs.pop()}>remove a blog</button>
-
+      ))} */}
+      <Resource
+        value={blogsData}
+        onPending={() => <div>loading</div>}
+        onResolved={(blogs) => (
+          <div class="blogs">
+            {blogs &&
+              blogs.map((blog) => (
+                <div key={blog.id}>
+                  <h3>{blog.title}</h3>
+                  <p>{blog.content.slice(0, 50)}...</p>
+                  <Link href={"/blog/" + blog.id}>Read more</Link>
+                </div>
+              ))}
+          </div>
+        )}
+      />
     </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Mario',
+  title: "Mario",
   meta: [
     {
-      name: 'description',
-      content: 'everything about mario',
+      name: "description",
+      content: "everything about mario",
     },
   ],
   links: [
     {
-      rel: 'stylesheet',
-      href: 'somestylesheet.com/styles.css'
-    }
-  ]
+      rel: "stylesheet",
+      href: "somestylesheet.com/styles.css",
+    },
+  ],
 };

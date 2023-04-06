@@ -1,15 +1,48 @@
-import { component$, useStyles$ } from "@builder.io/qwik";
-import AboutStyles from "./about.css?inline"
+import { component$, useSignal, useStyles$, $ } from "@builder.io/qwik";
+import Modal from "~/components/modal/modal";
+import AboutStyles from "./about.css?inline";
 
 export default component$(() => {
-    useStyles$(AboutStyles)
-    console.log('hello')
-    return (
-        <article>
-            <h2>About</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos, cumque facere!</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos, cumque facere!</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos, cumque facere!</p>
-        </article>
-    )
-})
+  useStyles$(AboutStyles);
+
+  const modalVisible = useSignal(false);
+
+  const closeModal = $(() => {
+    modalVisible.value = false;
+  });
+
+  return (
+    <article>
+      <h2>About</h2>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt
+        consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos,
+        cumque facere!
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt
+        consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos,
+        cumque facere!
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt
+        consectetur quidem impedit voluptate nostrum ex, quis aliquid. Eos,
+        cumque facere!
+      </p>
+      <button onClick$={() => (modalVisible.value = true)}>open modal</button>
+
+      {modalVisible.value && (
+        <Modal size="sm" frosted={true} close={closeModal}>
+          <div q:slot="content">
+            <h2>great news</h2>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit,
+              aliquid!
+            </p>
+          </div>
+          <div q:slot="footer">footer cool</div>
+        </Modal>
+      )}
+    </article>
+  );
+});
