@@ -1,6 +1,7 @@
 import { component$, Resource } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, Link } from "@builder.io/qwik-city";
+import Card from "~/components/card/card";
 
 interface BlogData {
   id: string;
@@ -32,11 +33,13 @@ export default component$(() => {
           <div class="blogs">
             {blogs &&
               blogs.map((blog) => (
-                <div key={blog.id}>
-                  <h3>{blog.title}</h3>
-                  <p>{blog.content.slice(0, 50)}...</p>
-                  <Link href={"/blog/" + blog.id}>Read more</Link>
-                </div>
+                <Card key={blog.id}>
+                  <h3 q:slot="title">{blog.title}</h3>
+                  <p q:slot="content">{blog.content.slice(0, 50)}...</p>
+                  <Link q:slot="footer" href={"/blog/" + blog.id}>
+                    <button>Read More</button>
+                  </Link>
+                </Card>
               ))}
           </div>
         )}

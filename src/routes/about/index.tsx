@@ -1,9 +1,9 @@
-import { component$, useSignal, useStyles$, $ } from "@builder.io/qwik";
+import { component$, useSignal, $ } from "@builder.io/qwik";
 import Modal from "~/components/modal/modal";
-import AboutStyles from "./about.css?inline";
+// import AboutStyles from "./about.css?inline";
 
 export default component$(() => {
-  useStyles$(AboutStyles);
+  // useStyles$(AboutStyles);
 
   const modalVisible = useSignal(false);
 
@@ -12,7 +12,7 @@ export default component$(() => {
   });
 
   return (
-    <article>
+    <article class="bg-red-400">
       <h2>About</h2>
       <p>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt
