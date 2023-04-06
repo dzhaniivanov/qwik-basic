@@ -1,32 +1,28 @@
-import { component$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
+import { component$, useStyles$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
+import styles from "./header.css?inline"
+
 
 
 export default component$(() => {
+  useStyles$(styles)
   return (
     <header >
-      <div >
-        <a href="/" title="qwik">
-          <QwikLogo />
-        </a>
-      </div>
-      <ul>
-        <li>
-          <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
-            Docs
-          </a>
-        </li>
-        <li>
-          <a href="https://qwik.builder.io/examples/introduction/hello-world/" target="_blank">
-            Examples
-          </a>
-        </li>
-        <li>
-          <a href="https://qwik.builder.io/tutorial/welcome/overview/" target="_blank">
-            Tutorials
-          </a>
-        </li>
-      </ul>
+      <nav>
+        <img src="/mario.jpg" alt="logo" />
+        <h1>Mario Life</h1>
+        <ul>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+          <li>
+            <Link href="/contact">Contact</Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 });
